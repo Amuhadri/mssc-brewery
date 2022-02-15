@@ -2,6 +2,7 @@ package guru.springframevork.msscbrewery.web.controller;
 
 import java.util.UUID;
 
+import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -13,32 +14,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import guru.springframevork.msscbrewery.services.BeerService;
+import guru.springframevork.msscbrewery.services.CustomerService;
 import guru.springframevork.msscbrewery.web.model.BeerDto;
+import guru.springframevork.msscbrewery.web.model.CustomerDto;
 
-@RequestMapping("/api/v1/beer")
 @RestController
-public class BeerController {
+@RequestMapping("/api/v1/customer")
+public class CustomerController {
 	
 	@Autowired
-	BeerService beerService;
+	CustomerService customerService;
 	
-	@GetMapping("/{beerId}")
-	public ResponseEntity<BeerDto> getBeer(@PathVariable UUID beerId){
+	
+	@GetMapping("/{customerId}")
+	public ResponseEntity<CustomerDto> getBeer(@PathVariable UUID customerId){
 		
-		return new ResponseEntity<>(beerService.getBeerById(beerId), HttpStatus.OK);
+		return new ResponseEntity<>(customerService.getCustomerById(customerId), HttpStatus.OK);
 	}
 	
-	@PostMapping
-	public ResponseEntity<BeerDto> handlePost(BeerDto beerDto) {
-		
-		BeerDto saveDto = beerService.saveNewBeer(beerDto);
-		
-		HttpHeaders headers = new HttpHeaders();
-		
-		String hostNameUrl = "http://localhost:8080";
-		headers.add("Location", hostNameUrl + "/api/v1/beer/" + saveDto.getId().toString());
-		
-		return new ResponseEntity<>(headers, HttpStatus.CREATED);
-	}
+	
+	
+	
 
 }
