@@ -1,4 +1,4 @@
-package guru.springframevork.msscbrewery.web.controller;
+package guru.springframevork.msscbrewery.web.controller.v2;
 
 import java.util.UUID;
 
@@ -16,26 +16,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import guru.springframevork.msscbrewery.services.BeerService;
-import guru.springframevork.msscbrewery.web.model.BeerDto;
+import guru.springframevork.msscbrewery.web.model.v2.BeerDtoV2;
+import guru.springframevork.msscbrewery.web.services.v2.BeerServiceV2;
 
-@RequestMapping("/api/v1/beer")
+@RequestMapping("/api/v2/beer")
 @RestController
-public class BeerController {
-	
+public class BeerControllerV2 {
+
 	@Autowired
-	BeerService beerService;
+	BeerServiceV2 beerServiceV2;
 	
 	@GetMapping("/{beerId}")
-	public ResponseEntity<BeerDto> getBeer(@PathVariable UUID beerId){
+	public ResponseEntity<BeerDtoV2> getBeer(@PathVariable UUID beerId){
 		
-		return new ResponseEntity<>(beerService.getBeerById(beerId), HttpStatus.OK);
+		return new ResponseEntity<>(beerServiceV2.getBeerById(beerId), HttpStatus.OK);
 	}
 	
 	@PostMapping
-	public ResponseEntity<BeerDto> handlePost(@RequestBody BeerDto beerDto) {
+	public ResponseEntity<BeerDtoV2> handlePost(@RequestBody BeerDtoV2 beerDto) {
 		
-		BeerDto saveDto = beerService.saveNewBeer(beerDto);
+		BeerDtoV2 saveDto = beerServiceV2.saveNewBeer(beerDto);
 		
 		HttpHeaders headers = new HttpHeaders();
 		
@@ -46,9 +46,9 @@ public class BeerController {
 	}
 	
 	@PutMapping({"/{beerId}"})
-	public ResponseEntity<BeerDto> handleUpdate(@PathVariable("beerId") UUID beerId, @RequestBody BeerDto beerDto){
+	public ResponseEntity<BeerDtoV2> handleUpdate(@PathVariable("beerId") UUID beerId, @RequestBody BeerDtoV2 beerDto){
 		
-		beerService.updateBeer(beerId, beerDto);
+		beerServiceV2.updateBeer(beerId, beerDto);
 		return new ResponseEntity<> (HttpStatus.NO_CONTENT);
 		
 	}
@@ -56,7 +56,7 @@ public class BeerController {
 	@DeleteMapping({"/{beerId}"})
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteBeer(@PathVariable("beerId") UUID beerId) {
-		beerService.deleteById(beerId);
+		beerServiceV2.deleteById(beerId);
 	} 
 
 }
